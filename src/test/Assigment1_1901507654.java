@@ -21,22 +21,16 @@ public class Assigment1_1901507654 {
 			System.out.println(words);
 			try {
 				choose = scan.nextInt();
-				//System.out.println(choose);
-				
 			} catch (Exception e) {
 				System.out.println("Input must be a numeric");
 				scan.nextLine();
 			}
-			//System.out.println(choose);
 			
 			if(choose < min || choose > max) {
 				System.out.println("Input must be between "+min+" and "+max);
 				scan.nextLine();
 			}
-			
 		}while(choose < min || choose > max);
-		
-		
 		return choose;
 	}
 	
@@ -47,36 +41,27 @@ public class Assigment1_1901507654 {
 			for(int i = 0 ; i < words.length ;i++) {
 				System.out.println(words[i]);
 			}
-			
 			try {
 				choose = scan.nextInt();
-				//System.out.println(choose);
-				
 			} catch (Exception e) {
 				System.out.println("Input must be a numeric");
 				scan.nextLine();
 			}
-			//System.out.println(choose);
-			
 			if(choose < min || choose > max) {
 				System.out.println("Input must be between "+min+" and "+max);
 				scan.nextLine();
-			}
-			
+			}		
 		}while(choose < min || choose > max);
-		
-		
 		return choose;
 	}
-	
-
-	
 
 	private static void editData() {
-		System.out.println("Edit data");
+		int choose;
+		choose = seeData();
+		connectArrayList(choose,"edit");
 	}
 
-	private static void seeData() {
+	private static int seeData() {
 		Scanner scan = new Scanner(System.in);
 		
 		if(studentId.size() > 0) {
@@ -95,88 +80,76 @@ public class Assigment1_1901507654 {
 			System.out.println(studentId.get(choose));
 			System.out.println(studentName.get(choose));
 			System.out.println(studentMark.get(choose));
-			
 			scan.nextLine();
-			
-			
+			return choose;
 		}else {
 			System.out.println("No Data");
+			return 0;
 		}
 
 	}
 	
-	private static void inputStudent() {
-		
+	private static void connectArrayList(int i,String mode) {
 		Scanner scan = new Scanner(System.in);
-		int choose = 0,temp=0,temp2=0;
+		boolean flag = false;
+		int temp=0,temp2=0;
 		String temp1="";
-		//String[] words = new String[10];
-		String words = "How many student [1-5] ? ";
 		
-		choose = inputVal(choose,1,5,words);
+		do {
+			flag = false;
+			System.out.print((i+1)+". Please input student Id [10] ");
+			try {
+				temp = scan.nextInt();
+			} catch (Exception e) {
+				System.out.println("Must Numeric and Number must ten digits");
+				scan.nextLine();
+			}
+			if(!(temp/1000000000 < 1 || temp/1000000000 >9)) {
+				flag = true;
+			}
+		}while(flag!=true);
+		scan.nextLine();
+		do {
+			flag = false;
+			System.out.print("Please input Student Name = ");
+			temp1 = scan.nextLine();
+			if(temp1 != null && !temp1.isEmpty() && temp1 != ""){
+				flag = true;
+			}
+		}while(flag!=true);
+		String words1 = "Please input Student Mark [0-100] = ";
+		temp2 = inputVal(temp2,0,100,words1);
 		
-		for(int i = 0 ; i < choose ; i++) {
-			
-			boolean flag = false;
-			temp=0;
-			temp2=0;
-			temp1="";
-			
-			
-			do {
-				flag = false;
-				System.out.print((i+1)+". Please input student Id [10] ");
-				try {
-					temp = scan.nextInt();
-				} catch (Exception e) {
-					System.out.println("Must Numeric and Number must ten digits");
-					scan.nextLine();
-				}
-				
-				if(!(temp/1000000000 < 1 || temp/1000000000 >9)) {
-					flag = true;
-				}
-			}while(flag!=true);
-
-			scan.nextLine();
-			
-			do {
-				flag = false;
-				System.out.print("Please input Student Name = ");
-				temp1 = scan.nextLine();
-				
-				if(temp1 != null && !temp1.isEmpty() && temp1 != ""){
-					flag = true;
-				}
-			}while(flag!=true);
-			
-		
-				
-			String words1 = "Please input Student Mark [0-100] = ";
-			temp2 = inputVal(temp2,0,100,words1);
-			
-			
+		if(mode.equalsIgnoreCase("insert")) {
 			studentId.add(temp);
 			studentName.add(temp1);
 			studentMark.add(temp2);
-			
+		}else {
+			studentId.set(i,temp);
+			studentName.set(i,temp1);
+			studentMark.set(i,temp2);
 		}
-		
-		
 	}
-
-
+	
+	private static void inputStudent() {
+		Scanner scan = new Scanner(System.in);
+		int choose = 0;
+		String temp1="";
+		//String[] words = new String[10];
+		String words = "How many student [1-5] ? ";
+		choose = inputVal(choose,1,5,words);
+		for(int i = 0 ; i < choose ; i++) {
+			connectArrayList(i,"insert");	
+		}	
+	}
 
 	public static void main(String[] args) {
 		int choose=0;	
 		String[] words = {"Student Mark List","1. Input Student","2. See All Data",
 							"3. Edit Data","4. Exit","","Input Your Choice [1-4] ?"};
-		
 		do {
 			cls();
 			choose = inputVal(choose,1,4,words);
-		
-		
 			switch(choose){
 				case 1 :
 					inputStudent();
@@ -187,9 +160,7 @@ public class Assigment1_1901507654 {
 				case 3 :
 					editData();
 				break;
-				
 			}
-		
 		}while(choose!=4);
 		
 	}
